@@ -37,6 +37,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #ifndef _Private_RaspiCam_IMPL_H
 #define _Private_RaspiCam_IMPL_H
+#include <chrono>
 #include "mmal/mmal.h"
 //#include "mmal_connection.h"
 #include <mutex>
