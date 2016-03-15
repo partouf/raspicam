@@ -37,6 +37,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef _RaspiCam_STILL_H
 #define _RaspiCam_STILL_H
 
+#include "raspicam_still_interface.h"
+
 #include "raspicamtypes.h"
 #include <cstdio>
 namespace raspicam {
@@ -48,7 +50,7 @@ namespace raspicam {
 
     /**Raspicam API for still camera
      */
-    class RaspiCam_Still{
+    class RaspiCam_Still: public RaspiCam_Still_Interface {
         //the implementation of the camera
         _private::Private_Impl_Still *_impl;
 
