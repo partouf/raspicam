@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstddef>
 #include "raspicamtypes.h"
 
 namespace raspicam {
