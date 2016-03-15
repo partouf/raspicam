@@ -2,4 +2,7 @@ os:
   - linux
 language: cpp
 compiler: clang
-script: cmake
+script:
+  - mkdir build
+  - cd build
+  - cmake ..
