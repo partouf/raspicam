@@ -60,52 +60,52 @@ namespace raspicam {
         //Destructor
         ~RaspiCam_Still();
         // Opens camera connection
-        bool open ( );
+        bool open ( ) override;
         //Grabs and set the data into the data buffer which has the indicated length. It is your responsability
         // to alloc the buffer. You can use getImageBufferSize for that matter.
-        bool grab_retrieve ( unsigned char * data, unsigned int length );
+        bool grab_retrieve ( unsigned char * data, unsigned int length ) override;
 	//Releases the camera
-        void release();//not working
+        void release() override;//not working
         // Returns the size of the images captured with the current parameters
-        size_t getImageBufferSize() const;
+        size_t getImageBufferSize() const override;
 
 	
 	
-        void commitParameters();
-        void setWidth ( unsigned int width );
-        void setHeight ( unsigned int height );
-        void setCaptureSize ( unsigned int width, unsigned int height );
-        void setBrightness ( unsigned int brightness );
-        void setQuality ( unsigned int quality );
-        void setRotation ( int rotation );
-        void setISO ( int iso );
-        void setSharpness ( int sharpness );
-        void setContrast ( int contrast );
-        void setSaturation ( int saturation );
-        void setEncoding ( RASPICAM_ENCODING encoding );
-        void setExposure ( RASPICAM_EXPOSURE exposure );
-        void setAWB ( RASPICAM_AWB awb );
-        void setImageEffect ( RASPICAM_IMAGE_EFFECT imageEffect );
-        void setMetering ( RASPICAM_METERING metering );
-        void setHorizontalFlip ( bool hFlip );
-        void setVerticalFlip ( bool vFlip );
+        void commitParameters() override;
+        void setWidth ( unsigned int width ) override;
+        void setHeight ( unsigned int height ) override;
+        void setCaptureSize ( unsigned int width, unsigned int height ) override;
+        void setBrightness ( unsigned int brightness ) override;
+        void setQuality ( unsigned int quality ) override;
+        void setRotation ( int rotation ) override;
+        void setISO ( int iso ) override;
+        void setSharpness ( int sharpness ) override;
+        void setContrast ( int contrast ) override;
+        void setSaturation ( int saturation ) override;
+        void setEncoding ( RASPICAM_ENCODING encoding ) override;
+        void setExposure ( RASPICAM_EXPOSURE exposure ) override;
+        void setAWB ( RASPICAM_AWB awb ) override;
+        void setImageEffect ( RASPICAM_IMAGE_EFFECT imageEffect ) override;
+        void setMetering ( RASPICAM_METERING metering ) override;
+        void setHorizontalFlip ( bool hFlip ) override;
+        void setVerticalFlip ( bool vFlip ) override;
 
-        unsigned int getWidth();
-        unsigned int getHeight();
-        unsigned int getBrightness();
-        unsigned int getRotation();
-        unsigned int getQuality();
-        int getISO();
-        int getSharpness();
-        int getContrast();
-        int getSaturation();
-        RASPICAM_ENCODING getEncoding();
-        RASPICAM_EXPOSURE getExposure();
-        RASPICAM_AWB getAWB();
-        RASPICAM_IMAGE_EFFECT getImageEffect();
-        RASPICAM_METERING getMetering();
-        bool isHorizontallyFlipped();
-        bool isVerticallyFlipped();
+        unsigned int getWidth() override;
+        unsigned int getHeight() override;
+        unsigned int getBrightness() override;
+        unsigned int getRotation() override;
+        unsigned int getQuality() override;
+        int getISO() override;
+        int getSharpness() override;
+        int getContrast() override;
+        int getSaturation() override;
+        RASPICAM_ENCODING getEncoding() override;
+        RASPICAM_EXPOSURE getExposure() override;
+        RASPICAM_AWB getAWB() override;
+        RASPICAM_IMAGE_EFFECT getImageEffect() override;
+        RASPICAM_METERING getMetering() override;
+        bool isHorizontallyFlipped() override;
+        bool isVerticallyFlipped() override;
 
     };
 }
