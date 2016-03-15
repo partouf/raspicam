@@ -1,5 +1,7 @@
 #RaspiCam: C++ API for using Raspberry camera (with OpenCV)
 
+[![Build Status](https://travis-ci.org/partouf/raspicam.svg?branch=master)](https://travis-ci.org/partouf/raspicam)
+
 This library allows to use the Raspberry Pi Camera under BSD License. 
 
 The project is started by the AVA research group (rafael Muñoz Salinas; rmsalinas@uco.es) and is now maintained
