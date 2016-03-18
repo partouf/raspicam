@@ -33,7 +33,7 @@ namespace raspicam {
         virtual void setHeight ( unsigned int height ) = 0;
         virtual void setCaptureSize ( unsigned int width, unsigned int height ) = 0;
         virtual void setBrightness ( unsigned int brightness ) = 0;
-        virtual void setQuality ( unsigned int quality );
+        virtual void setQuality ( unsigned int quality ) = 0;
         virtual void setRotation ( int rotation ) = 0;
         virtual void setISO ( int iso ) = 0;
         virtual void setSharpness ( int sharpness ) = 0;
