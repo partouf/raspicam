@@ -43,71 +43,70 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <cstdio>
 namespace raspicam {
 
-    namespace _private{
-        class Private_Impl_Still;
-    };
+   namespace _private {
+      class Private_Impl_Still;
+   };
 
 
-    /**Raspicam API for still camera
-     */
-    class RaspiCam_Still: public RaspiCam_Still_Interface {
-        //the implementation of the camera
-        _private::Private_Impl_Still *_impl;
+   /**Raspicam API for still camera
+    */
+   class RaspiCam_Still : public RaspiCam_Still_Interface {
+   private:
+      //the implementation of the camera
+      _private::Private_Impl_Still *_impl;
 
-        public:
-        //Constructor
-        RaspiCam_Still();
-        //Destructor
-        ~RaspiCam_Still();
-        // Opens camera connection
-        bool open() override;
-        //Grabs and set the data into the data buffer which has the indicated length. It is your responsability
-        // to alloc the buffer. You can use getImageBufferSize for that matter.
-        bool grab_retrieve( unsigned char * data, unsigned int length ) override;
-	//Releases the camera
-        void release() override;//not working
-        // Returns the size of the images captured with the current parameters
-        size_t getImageBufferSize() const override;
+   public:
+      //Constructor
+      RaspiCam_Still();
+      //Destructor
+      ~RaspiCam_Still();
+      // Opens camera connection
+      bool open() override;
+      //Grabs and set the data into the data buffer which has the indicated length. It is your responsability
+      // to alloc the buffer. You can use getImageBufferSize for that matter.
+      bool grab_retrieve(unsigned char * data, unsigned int length) override;
+      //Releases the camera
+      void release() override;//not working
+      // Returns the size of the images captured with the current parameters
+      size_t getImageBufferSize() const override;
 
-	
-	
-        void commitParameters() override;
-        void setWidth( unsigned int width ) override;
-        void setHeight( unsigned int height ) override;
-        void setCaptureSize( unsigned int width, unsigned int height ) override;
-        void setBrightness( unsigned int brightness ) override;
-        void setQuality( unsigned int quality ) override;
-        void setRotation( int rotation ) override;
-        void setISO( int iso ) override;
-        void setSharpness( int sharpness ) override;
-        void setContrast( int contrast ) override;
-        void setSaturation( int saturation ) override;
-        void setEncoding( RASPICAM_ENCODING encoding ) override;
-        void setExposure( RASPICAM_EXPOSURE exposure ) override;
-        void setAWB( RASPICAM_AWB awb ) override;
-        void setImageEffect( RASPICAM_IMAGE_EFFECT imageEffect ) override;
-        void setMetering( RASPICAM_METERING metering ) override;
-        void setHorizontalFlip( bool hFlip ) override;
-        void setVerticalFlip( bool vFlip ) override;
+      void commitParameters() override;
+      void setWidth(unsigned int width) override;
+      void setHeight(unsigned int height) override;
+      void setCaptureSize(unsigned int width, unsigned int height) override;
+      void setBrightness(unsigned int brightness) override;
+      void setQuality(unsigned int quality) override;
+      void setRotation(int rotation) override;
+      void setISO(int iso) override;
+      void setSharpness(int sharpness) override;
+      void setContrast(int contrast) override;
+      void setSaturation(int saturation) override;
+      void setEncoding(RASPICAM_ENCODING encoding) override;
+      void setExposure(RASPICAM_EXPOSURE exposure) override;
+      void setAWB(RASPICAM_AWB awb) override;
+      void setImageEffect(RASPICAM_IMAGE_EFFECT imageEffect) override;
+      void setMetering(RASPICAM_METERING metering) override;
+      void setHorizontalFlip(bool hFlip) override;
+      void setVerticalFlip(bool vFlip) override;
 
-        unsigned int getWidth() override;
-        unsigned int getHeight() override;
-        unsigned int getBrightness() override;
-        unsigned int getRotation() override;
-        unsigned int getQuality() override;
-        int getISO() override;
-        int getSharpness() override;
-        int getContrast() override;
-        int getSaturation() override;
-        RASPICAM_ENCODING getEncoding() override;
-        RASPICAM_EXPOSURE getExposure() override;
-        RASPICAM_AWB getAWB() override;
-        RASPICAM_IMAGE_EFFECT getImageEffect() override;
-        RASPICAM_METERING getMetering() override;
-        bool isHorizontallyFlipped() override;
-        bool isVerticallyFlipped() override;
+      unsigned int getWidth() override;
+      unsigned int getHeight() override;
+      unsigned int getBrightness() override;
+      unsigned int getRotation() override;
+      unsigned int getQuality() override;
+      int getISO() override;
+      int getSharpness() override;
+      int getContrast() override;
+      int getSaturation() override;
+      RASPICAM_ENCODING getEncoding() override;
+      RASPICAM_EXPOSURE getExposure() override;
+      RASPICAM_AWB getAWB() override;
+      RASPICAM_IMAGE_EFFECT getImageEffect() override;
+      RASPICAM_METERING getMetering() override;
+      bool isHorizontallyFlipped() override;
+      bool isVerticallyFlipped() override;
 
-    };
+   };
 };
 #endif
 
