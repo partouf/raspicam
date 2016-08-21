@@ -64,4 +64,4 @@ namespace raspicam {
         virtual bool isHorizontallyFlipped() = 0;
         virtual bool isVerticallyFlipped() = 0;
     };
-}
+};
