@@ -61,51 +61,50 @@ namespace raspicam {
       //Destructor
       ~RaspiCam_Still();
       // Opens camera connection
-      bool open() override;
+      virtual bool open() override;
       //Grabs and set the data into the data buffer which has the indicated length. It is your responsability
       // to alloc the buffer. You can use getImageBufferSize for that matter.
-      bool grab_retrieve(unsigned char * data, unsigned int length) override;
+      virtual bool grab_retrieve(unsigned char * data, unsigned int length) override;
       //Releases the camera
-      void release() override;//not working
+      virtual void release() override;//not working
       // Returns the size of the images captured with the current parameters
-      size_t getImageBufferSize() const override;
+      virtual size_t getImageBufferSize() const override;
 
-      void commitParameters() override;
-      void setWidth(unsigned int width) override;
-      void setHeight(unsigned int height) override;
-      void setCaptureSize(unsigned int width, unsigned int height) override;
-      void setBrightness(unsigned int brightness) override;
-      void setQuality(unsigned int quality) override;
-      void setRotation(int rotation) override;
-      void setISO(int iso) override;
-      void setSharpness(int sharpness) override;
-      void setContrast(int contrast) override;
-      void setSaturation(int saturation) override;
-      void setEncoding(RASPICAM_ENCODING encoding) override;
-      void setExposure(RASPICAM_EXPOSURE exposure) override;
-      void setAWB(RASPICAM_AWB awb) override;
-      void setImageEffect(RASPICAM_IMAGE_EFFECT imageEffect) override;
-      void setMetering(RASPICAM_METERING metering) override;
-      void setHorizontalFlip(bool hFlip) override;
-      void setVerticalFlip(bool vFlip) override;
+      virtual void commitParameters() override;
+      virtual void setWidth(unsigned int width) override;
+      virtual void setHeight(unsigned int height) override;
+      virtual void setCaptureSize(unsigned int width, unsigned int height) override;
+      virtual void setBrightness(unsigned int brightness) override;
+      virtual void setQuality(unsigned int quality) override;
+      virtual void setRotation(int rotation) override;
+      virtual void setISO(int iso) override;
+      virtual void setSharpness(int sharpness) override;
+      virtual void setContrast(int contrast) override;
+      virtual void setSaturation(int saturation) override;
+      virtual void setEncoding(RASPICAM_ENCODING encoding) override;
+      virtual void setExposure(RASPICAM_EXPOSURE exposure) override;
+      virtual void setAWB(RASPICAM_AWB awb) override;
+      virtual void setImageEffect(RASPICAM_IMAGE_EFFECT imageEffect) override;
+      virtual void setMetering(RASPICAM_METERING metering) override;
+      virtual void setHorizontalFlip(bool hFlip) override;
+      virtual void setVerticalFlip(bool vFlip) override;
 
-      unsigned int getWidth() override;
-      unsigned int getHeight() override;
-      unsigned int getBrightness() override;
-      unsigned int getRotation() override;
-      unsigned int getQuality() override;
-      int getISO() override;
-      int getSharpness() override;
-      int getContrast() override;
-      int getSaturation() override;
-      RASPICAM_ENCODING getEncoding() override;
-      RASPICAM_EXPOSURE getExposure() override;
-      RASPICAM_AWB getAWB() override;
-      RASPICAM_IMAGE_EFFECT getImageEffect() override;
-      RASPICAM_METERING getMetering() override;
-      bool isHorizontallyFlipped() override;
-      bool isVerticallyFlipped() override;
-
+      virtual unsigned int getWidth() override;
+      virtual unsigned int getHeight() override;
+      virtual unsigned int getBrightness() override;
+      virtual unsigned int getRotation() override;
+      virtual unsigned int getQuality() override;
+      virtual int getISO() override;
+      virtual int getSharpness() override;
+      virtual int getContrast() override;
+      virtual int getSaturation() override;
+      virtual RASPICAM_ENCODING getEncoding() override;
+      virtual RASPICAM_EXPOSURE getExposure() override;
+      virtual RASPICAM_AWB getAWB() override;
+      virtual RASPICAM_IMAGE_EFFECT getImageEffect() override;
+      virtual RASPICAM_METERING getMetering() override;
+      virtual bool isHorizontallyFlipped() override;
+      virtual bool isVerticallyFlipped() override;
    };
 };
 #endif
