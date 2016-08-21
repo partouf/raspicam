@@ -60,10 +60,10 @@ namespace raspicam {
         //Destructor
         ~RaspiCam_Still();
         // Opens camera connection
-        bool open ( ) override;
+        bool open() override;
         //Grabs and set the data into the data buffer which has the indicated length. It is your responsability
         // to alloc the buffer. You can use getImageBufferSize for that matter.
-        bool grab_retrieve ( unsigned char * data, unsigned int length ) override;
+        bool grab_retrieve( unsigned char * data, unsigned int length ) override;
 	//Releases the camera
         void release() override;//not working
         // Returns the size of the images captured with the current parameters
@@ -72,23 +72,23 @@ namespace raspicam {
 	
 	
         void commitParameters() override;
-        void setWidth ( unsigned int width ) override;
-        void setHeight ( unsigned int height ) override;
-        void setCaptureSize ( unsigned int width, unsigned int height ) override;
-        void setBrightness ( unsigned int brightness ) override;
-        void setQuality ( unsigned int quality ) override;
-        void setRotation ( int rotation ) override;
-        void setISO ( int iso ) override;
-        void setSharpness ( int sharpness ) override;
-        void setContrast ( int contrast ) override;
-        void setSaturation ( int saturation ) override;
-        void setEncoding ( RASPICAM_ENCODING encoding ) override;
-        void setExposure ( RASPICAM_EXPOSURE exposure ) override;
-        void setAWB ( RASPICAM_AWB awb ) override;
-        void setImageEffect ( RASPICAM_IMAGE_EFFECT imageEffect ) override;
-        void setMetering ( RASPICAM_METERING metering ) override;
-        void setHorizontalFlip ( bool hFlip ) override;
-        void setVerticalFlip ( bool vFlip ) override;
+        void setWidth( unsigned int width ) override;
+        void setHeight( unsigned int height ) override;
+        void setCaptureSize( unsigned int width, unsigned int height ) override;
+        void setBrightness( unsigned int brightness ) override;
+        void setQuality( unsigned int quality ) override;
+        void setRotation( int rotation ) override;
+        void setISO( int iso ) override;
+        void setSharpness( int sharpness ) override;
+        void setContrast( int contrast ) override;
+        void setSaturation( int saturation ) override;
+        void setEncoding( RASPICAM_ENCODING encoding ) override;
+        void setExposure( RASPICAM_EXPOSURE exposure ) override;
+        void setAWB( RASPICAM_AWB awb ) override;
+        void setImageEffect( RASPICAM_IMAGE_EFFECT imageEffect ) override;
+        void setMetering( RASPICAM_METERING metering ) override;
+        void setHorizontalFlip( bool hFlip ) override;
+        void setVerticalFlip( bool vFlip ) override;
 
         unsigned int getWidth() override;
         unsigned int getHeight() override;
@@ -108,6 +108,6 @@ namespace raspicam {
         bool isVerticallyFlipped() override;
 
     };
-}
+};
 #endif
 

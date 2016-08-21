@@ -50,68 +50,68 @@ namespace raspicam {
         return _impl->initialize() ==0;
     }
     bool RaspiCam_Still::grab_retrieve ( unsigned char * preallocated_data, unsigned int length ) {
-        return _impl->takePicture ( preallocated_data, length );
-
+        return _impl->takePicture( preallocated_data, length );
     }
+
     void RaspiCam_Still::release() {}
 
     size_t RaspiCam_Still::getImageBufferSize() const{
-        return      _impl-> getImageBufferSize();
+        return _impl->getImageBufferSize();
 
     }
     void RaspiCam_Still::commitParameters() {
-        _impl-> commitParameters();
+        _impl->commitParameters();
     }
     void RaspiCam_Still::setWidth ( unsigned int width ) {
-        _impl-> setWidth ( width );
+        _impl->setWidth( width );
     }
     void RaspiCam_Still::setHeight ( unsigned int height ) {
-        _impl->setHeight ( height );
+        _impl->setHeight( height );
     }
     void RaspiCam_Still::setCaptureSize ( unsigned int width, unsigned int height ) {
-        _impl->setCaptureSize ( width,height );
+        _impl->setCaptureSize( width,height );
     }
     void RaspiCam_Still::setBrightness ( unsigned int brightness ) {
-        _impl->setBrightness ( brightness );
+        _impl->setBrightness( brightness );
     }
     void RaspiCam_Still::setQuality ( unsigned int quality ) {
-        _impl->setQuality ( quality );
+        _impl->setQuality( quality );
     }
     void RaspiCam_Still::setRotation ( int rotation ) {
-        _impl-> setRotation ( rotation );
+        _impl->setRotation( rotation );
     }
     void RaspiCam_Still::setISO ( int iso ) {
-        _impl-> setISO ( iso );
+        _impl->setISO( iso );
     }
     void RaspiCam_Still::setSharpness ( int sharpness ) {
-        _impl->setSharpness ( sharpness );
+        _impl->setSharpness( sharpness );
     }
     void RaspiCam_Still::setContrast ( int contrast ) {
-        _impl->setContrast ( contrast );
+        _impl->setContrast( contrast );
     }
     void RaspiCam_Still::setSaturation ( int saturation ) {
-        _impl->setSaturation ( saturation );
+        _impl->setSaturation( saturation );
     }
     void RaspiCam_Still::setEncoding ( RASPICAM_ENCODING encoding ) {
-        _impl->setEncoding ( encoding );
+        _impl->setEncoding( encoding );
     }
     void RaspiCam_Still::setExposure ( RASPICAM_EXPOSURE exposure ) {
-        _impl->setExposure ( exposure );
+        _impl->setExposure( exposure );
     }
     void RaspiCam_Still::setAWB ( RASPICAM_AWB awb ) {
-        _impl->setAWB ( awb );
+        _impl->setAWB( awb );
     }
     void RaspiCam_Still::setImageEffect ( RASPICAM_IMAGE_EFFECT imageEffect ) {
-        _impl-> setImageEffect ( imageEffect );
+        _impl->setImageEffect( imageEffect );
     }
     void RaspiCam_Still::setMetering ( RASPICAM_METERING metering ) {
-        _impl->setMetering ( metering );
+        _impl->setMetering( metering );
     }
     void RaspiCam_Still::setHorizontalFlip ( bool hFlip ) {
-        _impl->setHorizontalFlip ( hFlip );
+        _impl->setHorizontalFlip( hFlip );
     }
     void RaspiCam_Still::setVerticalFlip ( bool vFlip ) {
-        _impl->setVerticalFlip ( vFlip );
+        _impl->setVerticalFlip( vFlip );
     }
 
     unsigned int RaspiCam_Still::getWidth() {
@@ -145,7 +145,7 @@ namespace raspicam {
         return _impl->getEncoding();
     }
     RASPICAM_EXPOSURE RaspiCam_Still::getExposure() {
-        return _impl->getExposure ();
+        return _impl->getExposure();
     }
     RASPICAM_AWB RaspiCam_Still::getAWB() {
         return _impl->getAWB();
