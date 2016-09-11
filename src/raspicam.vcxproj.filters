@@ -38,9 +38,6 @@
     <ClInclude Include="private\exceptions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="private\private_types.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="private\threadcondition.h">
       <Filter>Header Files</Filter>
     </ClInclude>

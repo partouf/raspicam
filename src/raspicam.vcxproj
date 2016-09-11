@@ -128,7 +128,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="private\exceptions.h" />
-    <ClInclude Include="private\private_types.h" />
     <ClInclude Include="private\threadcondition.h" />
     <ClInclude Include="raspicamtypes.h" />
     <ClInclude Include="RaspiCam_Still_CVCam.h" />
