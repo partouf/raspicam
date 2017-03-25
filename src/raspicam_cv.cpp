@@ -88,17 +88,16 @@ namespace raspicam {
     double RaspiCam_Cv::get ( int propId ) {
 
         switch ( propId ) {
-
+        case CV_CAP_PROP_MODE:
+            return _impl->getSensorMode();
         case CV_CAP_PROP_FRAME_WIDTH :
             return _impl->getWidth();
         case CV_CAP_PROP_FRAME_HEIGHT :
             return _impl->getHeight();
         case CV_CAP_PROP_FPS:
-            return 30;
+            return _impl->getFrameRate();
         case CV_CAP_PROP_FORMAT :
             return imgFormat;
-        case CV_CAP_PROP_MODE :
-            return 0;
         case CV_CAP_PROP_BRIGHTNESS :
             return _impl->getBrightness();
         case CV_CAP_PROP_CONTRAST :
@@ -124,7 +123,10 @@ namespace raspicam {
     bool RaspiCam_Cv::set ( int propId, double value ) {
 
         switch ( propId ) {
-
+        case CV_CAP_PROP_MODE:
+            _impl->setSensorMode(value);
+            break;
+            
         case CV_CAP_PROP_FRAME_WIDTH :
             _impl->setWidth ( value );
             break;
@@ -138,15 +140,12 @@ namespace raspicam {
                 imgFormat=value;
             }
             else if (value==CV_8UC3){
-                _impl->setFormat(RASPICAM_FORMAT_BGR);
+                _impl->setFormat(RASPICAM_FORMAT_RGB);
                 imgFormat=value;
             }
             else res=false;//error int format
             return res;
         }break;
-        case CV_CAP_PROP_MODE ://nothing to  do yet
-            return false;
-            break;
         case CV_CAP_PROP_BRIGHTNESS :
             _impl->setBrightness ( value );
             break;
@@ -171,6 +170,8 @@ namespace raspicam {
         case CV_CAP_PROP_CONVERT_RGB :
             imgFormat=CV_8UC3;
             break;
+        case CV_CAP_PROP_FPS:
+            _impl->setFrameRate ( value );
         default :
             return false;
         };
