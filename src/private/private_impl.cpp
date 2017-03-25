@@ -93,6 +93,7 @@ namespace raspicam {
             State.shutterSpeed=0;//auto
             State.awbg_red=1.0;
             State.awbg_blue=1.0;
+            State.sensor_mode = 0; //do not set mode by default
 
         }
         bool  Private_Impl::open ( bool StartCapture ) {
@@ -107,6 +108,7 @@ namespace raspicam {
             callback_data.pstate = &State;
             // assign data to use for callback
             camera_video_port->userdata = ( struct MMAL_PORT_USERDATA_T * ) &callback_data;
+            State.camera_component->control->userdata = ( struct MMAL_PORT_USERDATA_T * ) &callback_data;
 
             _isOpened=true;
             if ( StartCapture ) return startCapture();
@@ -250,6 +252,16 @@ namespace raspicam {
             }
 
             video_port = camera->output[MMAL_CAMERA_VIDEO_PORT];
+        
+            //set sensor mode
+            if ( state->sensor_mode != 0 && mmal_port_parameter_set_uint32 ( camera->control, 
+                                                    MMAL_PARAMETER_CAMERA_CUSTOM_SENSOR_CONFIG, 
+                                                    state->sensor_mode)  != MMAL_SUCCESS)
+            {
+                cerr << __func__ << ": Failed to set sensmode.";
+            }
+
+            _rgb_bgr_fixed = !(mmal_util_rgb_order_fixed(video_port));
 
             //  set up the camera configuration
 
@@ -267,6 +279,28 @@ namespace raspicam {
             cam_config.fast_preview_resume = 0;
             cam_config.use_stc_timestamp = MMAL_PARAM_TIMESTAMP_MODE_RESET_STC;
             mmal_port_parameter_set ( camera->control, &cam_config.hdr );
+
+            MMAL_PARAMETER_CHANGE_EVENT_REQUEST_T change_event_request =
+                    {{MMAL_PARAMETER_CHANGE_EVENT_REQUEST, sizeof(MMAL_PARAMETER_CHANGE_EVENT_REQUEST_T)},
+                     MMAL_PARAMETER_CAMERA_SETTINGS, 1};
+
+            status = mmal_port_parameter_set(camera->control, &change_event_request.hdr);
+            if ( status != MMAL_SUCCESS )
+            {
+                cerr<<("No camera settings events");
+                mmal_component_destroy ( camera );
+                return 0;
+            }
+
+            // Enable the camera, and tell it its control callback function
+            status = mmal_port_enable(camera->control, camera_control_callback);
+
+            if (status != MMAL_SUCCESS)
+            {
+                cerr << "Unable to enable control port : error " << (int) status;
+                mmal_component_destroy ( camera );
+                return 0;
+            }
 
             // Set the encode format on the video  port
 
@@ -393,7 +427,6 @@ namespace raspicam {
 
         }
 
-
         void Private_Impl::commitAWB() {
             MMAL_PARAMETER_AWBMODE_T param = {{MMAL_PARAMETER_AWB_MODE,sizeof ( param ) }, convertAWB ( State.rpc_awbMode ) };
             if ( mmal_port_parameter_set ( State.camera_component->control, &param.hdr ) != MMAL_SUCCESS )
@@ -461,7 +494,31 @@ namespace raspicam {
                 cout << __func__ << ": Failed to set video stabilization parameter.\n";
         }
 
+        void Private_Impl::camera_control_callback(MMAL_PORT_T *port, MMAL_BUFFER_HEADER_T *buffer)
+        {
+            PORT_USERDATA *pData = ( PORT_USERDATA * ) port->userdata;
+            std::unique_lock<std::mutex> lck ( pData->_mutex );
 
+            if (buffer->cmd == MMAL_EVENT_PARAMETER_CHANGED)
+            {
+                MMAL_EVENT_PARAMETER_CHANGED_T *param = (MMAL_EVENT_PARAMETER_CHANGED_T *)buffer->data;
+                if (param->hdr.id == MMAL_PARAMETER_CAMERA_SETTINGS) {
+                    MMAL_PARAMETER_CAMERA_SETTINGS_T *settings = (MMAL_PARAMETER_CAMERA_SETTINGS_T*)param;
+
+                    pData->pstate->shutterSpeed = settings->exposure;
+                    pData->pstate->awbg_red = float(settings->awb_red_gain.num)/settings->awb_red_gain.den;
+                    pData->pstate->awbg_blue = float(settings->awb_blue_gain.num)/settings->awb_blue_gain.den;
+                }
+            }
+            else if (buffer->cmd == MMAL_EVENT_ERROR)
+            {
+                printf("No data received from sensor. Check all connections, including the Sunny one on the camera board");
+            }
+            else
+                printf("Received unexpected camera control callback event, 0x%08x", buffer->cmd);
+
+            mmal_buffer_header_release(buffer);
+        }
 
         void Private_Impl::video_buffer_callback ( MMAL_PORT_T *port, MMAL_BUFFER_HEADER_T *buffer ) {
             MMAL_BUFFER_HEADER_T *new_buffer;
@@ -497,7 +554,7 @@ namespace raspicam {
                     printf ( "Unable to return a buffer to the encoder port" );
             }
 
-            if ( pData->pstate->shutterSpeed!=0 )
+            if ( pData->pstate->shutterSpeed!=0 && pData->pstate->rpc_exposureMode == RASPICAM_EXPOSURE_FIXEDFPS)
                 mmal_port_parameter_set_uint32 ( pData->pstate->camera_component->control, MMAL_PARAMETER_SHUTTER_SPEED, pData->pstate->shutterSpeed ) ;
             if ( hasGrabbed ) pData->Thcond.BroadCast(); //wake up waiting client
 
@@ -518,6 +575,14 @@ namespace raspicam {
                 return;
             }
             State.captureFtm = fmt;
+        }
+
+        void Private_Impl::setSensorMode ( int mode ) {
+            if ( isOpened() ) {
+                cerr<<__FILE__<<":"<<__LINE__<<":"<<__func__<<": can not change sensor mode with camera already opened"<<endl;
+                return;
+            }
+            State.sensor_mode = mode;
         }
 
         void Private_Impl::setCaptureSize ( unsigned int width, unsigned int height ) {
@@ -622,6 +687,9 @@ namespace raspicam {
             if ( isOpened() ) commitFlips();
         }
 
+        void Private_Impl::setFrameRate ( int frames_per_second ) {
+            State.framerate = frames_per_second;
+        }
 
         MMAL_PARAM_EXPOSUREMETERINGMODE_T Private_Impl::convertMetering ( RASPICAM_METERING metering ) {
             switch ( metering ) {
@@ -748,9 +816,9 @@ namespace raspicam {
         int Private_Impl::convertFormat ( RASPICAM_FORMAT fmt ) {
             switch ( fmt ) {
             case RASPICAM_FORMAT_RGB:
-                return MMAL_ENCODING_BGR24;
+                return _rgb_bgr_fixed ? MMAL_ENCODING_RGB24 : MMAL_ENCODING_BGR24;
             case RASPICAM_FORMAT_BGR:
-                return MMAL_ENCODING_RGB24;
+                return _rgb_bgr_fixed ? MMAL_ENCODING_BGR24 : MMAL_ENCODING_RGB24;
             case RASPICAM_FORMAT_GRAY:
                 return MMAL_ENCODING_I420;
             case RASPICAM_FORMAT_YUV420:
